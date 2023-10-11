@@ -1,7 +1,7 @@
 # airflow-rabbitmq
 
 Projeto de um sistema de processamento de dados com Airflow e RabbitMQ.
-O JSON de dados é eviado ao ao RabbitMQ via WebHook e processado com uma Dag do Airflow.
+O JSON de dados é eviado ao RabbitMQ via WebHook e processado com uma Dag do Airflow.
 
 Lista de tecnologias usadas:
 1. Python
@@ -23,6 +23,11 @@ curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main
 ```
 mkdir -p ./dags 
 ```
+>Baixar as DAGs
+```
+cd dags
+curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/setup_rabbitmq.py'
+```
 
 >Configurar o AIRFLOW_UID
 ```
@@ -38,20 +43,17 @@ docker compose up airflow-init
 ```
 docker compose up
 ```
->Abrir portas:
+>Portas, Sistemas e usuários(usuário:senha):
 ```
-5000 Airflow usuario:senha airflow:airflow
-15672 RabbitMQ usuario:senha guest:guest
-3000 web-hook rabbitmq 
+5000 Airflow airflow:airflow
+15672 RabbitMQ guest:guest
+3000 Web-Hook-RabbitMQ 
 ```
-
-
-
-
->Usuário administrador
-Login : sobreira 
-Senha : sobreira
-
->Usuário de teste
-Login : teste 
-Senha : teste
+>Post JSON web-hook rabbitmq
+```
+curl --location 'link_gerado_playwithdocker/rabbitmq' \
+--header 'Content-Type: application/json' \
+--data '{
+    "processar" : 100
+}'
+```
