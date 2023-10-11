@@ -27,6 +27,7 @@ mkdir -p ./dags
 ```
 cd dags
 curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/setup_rabbitmq.py'
+cd ~
 ```
 
 >Configurar o AIRFLOW_UID
