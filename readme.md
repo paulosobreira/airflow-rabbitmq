@@ -16,23 +16,37 @@ Pode ser executado no [Play with Docker](https://labs.play-with-docker.com/)
 
 >Baixar o Dokcer compose
 ```
-curl -LfO 'https://github.com/paulosobreira/airflow-rabbitmq/blob/main/docker-compose.yaml'
+curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/docker-compose.yaml'
 ```
 
->Setar AIRFLOW_UID
+>Criar diretorio de DAGs
+```
+mkdir -p ./dags 
+```
+
+>Configurar o AIRFLOW_UID
 ```
 echo -e "AIRFLOW_UID=$(id -u)" > .env
+```
+
+>Inicia Airflow
+```
+docker compose up airflow-init
 ```
 
 >Subir os containers
 ```
 docker compose up
 ```
+>Abrir portas:
+```
+5000 Airflow usuario:senha airflow:airflow
+15672 RabbitMQ usuario:senha guest:guest
+3000 web-hook rabbitmq 
+```
 
 
->Url de acesso:
 
-link_gerado_playwithdocker/*tecnet2/index.jsp*
 
 >Usuário administrador
 Login : sobreira 
