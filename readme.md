@@ -23,6 +23,7 @@ curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main
 ```
 mkdir -p ./dags 
 cd dags
+curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/dag_hum.py'
 curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/setup_rabbitmq.py'
 cd ~
 ```
