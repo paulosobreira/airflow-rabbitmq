@@ -1,20 +1,43 @@
-Construir imagem airflow com dependencias:
+# airflow-rabbitmq
+
+Projeto de um sistema de processamento de dados com Airflow e RabbitMQ.
+O JSON de dados é eviado ao ao RabbitMQ via WebHook e processado com uma Dag do Airflow.
+
+Lista de tecnologias usadas:
+1. Python
+2. Node
+3. JavaScript
+4. RabbitMQ
+5. Airflow
+   
+## Como testar
+
+Pode ser executado no [Play with Docker](https://labs.play-with-docker.com/)
+
+>Baixar o Dokcer compose
 ```
-docker build . --tag sowbreira/airflow:2.7.1
+curl -LfO 'https://github.com/paulosobreira/airflow-rabbitmq/blob/main/docker-compose.yaml'
 ```
-Subir imagem airflow com dependencias para dockerhub:
+
+>Setar AIRFLOW_UID
 ```
-docker push sowbreira/airflow:2.7.1
+echo -e "AIRFLOW_UID=$(id -u)" > .env
 ```
-Iniciar o airflow via docker:
+
+>Subir os containers
 ```
 docker compose up
 ```
-Parar o airflow via docker:
-```
-docker compose down
-```
-Parar e limpar o airflow via docker:
-```
-docker compose down --volumes --rmi all
-```
+
+
+>Url de acesso:
+
+link_gerado_playwithdocker/*tecnet2/index.jsp*
+
+>Usuário administrador
+Login : sobreira 
+Senha : sobreira
+
+>Usuário de teste
+Login : teste 
+Senha : teste

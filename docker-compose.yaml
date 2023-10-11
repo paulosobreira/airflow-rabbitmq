@@ -86,6 +86,12 @@ x-airflow-common:
       condition: service_healthy
 
 services:
+  webhook-rabbitmq:
+    image: sowbreira/webhook-rabbitmq
+    container_name: webhook-rabbitmq
+    ports:
+      - "3000:3000"
+
   rabbitmq:
     image: rabbitmq:management
     container_name: rabbitmq
