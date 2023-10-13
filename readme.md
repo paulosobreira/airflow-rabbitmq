@@ -21,20 +21,17 @@ curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main
 
 >Criar diretorio de DAGs e baixar as DAGs
 ```
-mkdir -p ./dags 
+mkdir -p ./dags ./logs ./plugins ./config
 cd dags
-curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/dag_hum.py'
 curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/setup_rabbitmq.py'
+curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/processa_paralelo.py'
+curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/processa_continuo.py'
 cd ~
 ```
 
->Configurar o AIRFLOW_UID
+>Setup Airflow
 ```
 echo -e "AIRFLOW_UID=$(id -u)" > .env
-```
-
->Iniciar Airflow
-```
 docker compose up airflow-init
 ```
 
@@ -42,6 +39,7 @@ docker compose up airflow-init
 ```
 docker compose up
 ```
+
 >Portas, sistemas e usuários(usuário:senha):
 ```
 5000 Airflow airflow:airflow
@@ -55,4 +53,9 @@ curl --location 'link_gerado_playwithdocker_porta_3000/rabbitmq' \
 --data '{
     "processar" : 100
 }'
+```
+
+>Limpar tudo
+```
+docker compose down --volumes --rmi all
 ```
