@@ -1,6 +1,6 @@
 # airflow-rabbitmq
 
-Projeto de um sistema de processamento de dados com Airflow e RabbitMQ.
+Exemplo de uma arquitetura de processamento de dados com Airflow e RabbitMQ.
 O JSON de dados é eviado ao RabbitMQ via WebHook e processado com uma Dag do Airflow.
 
 Lista de tecnologias usadas:
@@ -14,21 +14,21 @@ Lista de tecnologias usadas:
 
 Pode ser executado no [Play with Docker](https://labs.play-with-docker.com/)
 
->Baixar o Docker compose
-```
-curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/docker-compose.yaml'
-```
 >Criar diretorio de DAGs e baixar as DAGs
 ```
 mkdir -p ./dags ./logs ./plugins ./config
 cd dags
-curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/setup_rabbitmq.py'
-curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/processar_paralelo.py'
-curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/processar_continuo.py'
+curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/1_setup_rabbitmq.py'
+curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/2_processar_paralelo.py'
+curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/3_processar_continuo.py'
+curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/4_processar_paralelo_distribuido.py'
 cd ~
+curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/processar.sh'
+chmod +x processar.sh
 ```
 >Iniciar containers do Node,RabbitMQ e Airflow
 ```
+curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/docker-compose.yaml'
 echo -e "AIRFLOW_UID=$(id -u)" > .env
 docker compose up airflow-init
 docker compose up

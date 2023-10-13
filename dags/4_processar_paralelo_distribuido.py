@@ -2,27 +2,20 @@ from airflow import DAG
 from airflow.operators.empty import EmptyOperator
 from airflow.operators.python import BranchPythonOperator
 from airflow.decorators import task
-import pendulum,pika,json,time,pickle,os,shutil
+import pendulum,pika,json,time,redis
 with DAG(
-    dag_id="processar_continuo", 
-    description="Processamento continuo",
+    dag_id="4_processar_paralelo_distribuido", 
+    description="Processamento paralelo distribuido",
     start_date=pendulum.datetime(2023, 10, 12, 00, 00, 00, tz="America/Fortaleza"),
     catchup=False,
-    schedule="@continuous",
-    max_active_runs = 1,
+    schedule="@once",
     default_args={'owner': 'Paulo Sobreira'},
-    tags=["processar","continuo"]
+    tags=["processar","paralelo","distribuido"]
 ) as dag:
 
     rabbitmq = "amqp://guest:guest@rabbitmq/"
 
-    @task
-    def inicio():
-        if os.path.isdir(dag.dag_id):
-            shutil.rmtree(dag.dag_id)
-        os.mkdir(dag.dag_id)         
-    
-    def verifica_processar():
+    def verifica_processar(**kwargs):
         message = None
         connection = pika.BlockingConnection(pika.URLParameters(rabbitmq))
         channel = connection.channel()
@@ -30,7 +23,7 @@ with DAG(
         if method_frame:
             message = body.decode()
             json_recebido = json.loads(message)
-            salva_json(json_recebido=json_recebido,dag=dag)
+            salva_json(json_recebido=json_recebido,run_id=kwargs['dag_run'].run_id)
             if("processar" in json_recebido):
                 returno = 'processar'
             else:
@@ -43,10 +36,10 @@ with DAG(
         return returno  
 
     @task
-    def erro():
+    def erro(**kwargs):
         connection = pika.BlockingConnection(pika.URLParameters(rabbitmq))
         channel = connection.channel()        
-        json_recebido = busca_json(dag=dag)
+        json_recebido = busca_json(run_id=kwargs['dag_run'].run_id)
         json_recebido.update({"erros": []})
         json_recebido['erros'].append('JSON nao contem o campo processar')
         json_recebido.update({"erros": list(set(json_recebido['erros']))})     
@@ -59,25 +52,26 @@ with DAG(
         connection.close()  
 
     @task
-    def processar():
-        json_recebido = busca_json(dag=dag)
+    def processar(**kwargs):
+        json_recebido = busca_json(run_id=kwargs['dag_run'].run_id)
         print('Inicio procesasmento continuo de {} segundos '.format(json_recebido['processar']))
         time.sleep(json_recebido['processar'])
         print('Fim procesasmento continuo de {} segundos '.format(json_recebido['processar']))        
 
-    def salva_json(json_recebido,dag):
-        with open(dag.dag_id+'/json_recebido', 'wb') as f:
-            pickle.dump(json_recebido, f, pickle.HIGHEST_PROTOCOL)        
-        print(json_recebido)   
+    def salva_json(json_recebido,run_id):
+        r = redis.Redis(host='redis', port=6379)
+        r.set(run_id+'/json_recebido', json.dumps(json_recebido))
+        print(json_recebido)
 
-    def busca_json(dag):
-        with open(dag.dag_id+'/json_recebido', 'rb') as f:
-            json_recebido = pickle.load(f)
+    def busca_json(run_id):
+        r = redis.Redis(host='redis', port=6379)
+        json_recebido = json.loads(r.get(run_id+'/json_recebido'))
         print(json_recebido)
         return json_recebido 
  
+    inicio = EmptyOperator(task_id="inicio", dag=dag)
     fila_vazia = EmptyOperator(task_id="fila_vazia", dag=dag)
     fim = EmptyOperator(trigger_rule='one_success',task_id="fim", dag=dag)
     verifica_processar = BranchPythonOperator(trigger_rule='one_success',task_id='verifica_processar', dag=dag ,python_callable=verifica_processar)
 
-    inicio() >> verifica_processar >> [processar(),erro(),fila_vazia] >> fim
+    inicio >> verifica_processar >> [processar(),erro(),fila_vazia] >> fim

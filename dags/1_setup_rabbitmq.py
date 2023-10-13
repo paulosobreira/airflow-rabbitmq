@@ -5,7 +5,7 @@ from airflow.utils.dates import days_ago
 import pika,pendulum
 
 with DAG(
-    "setup_rabbitmq", 
+    "1_setup_rabbitmq", 
     start_date=pendulum.now(tz="America/Fortaleza"),
     schedule="@once",
     max_active_runs = 1,
