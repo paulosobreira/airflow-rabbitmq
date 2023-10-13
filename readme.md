@@ -23,7 +23,7 @@ curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main
 curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/3_processar_continuo.py'
 curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/4_processar_paralelo_distribuido.py'
 cd ~
-curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/processar.sh'
+curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/processar.sh'
 chmod +x processar.sh
 ```
 >Iniciar containers do Node,RabbitMQ e Airflow
