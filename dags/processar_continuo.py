@@ -4,7 +4,7 @@ from airflow.operators.python import BranchPythonOperator
 from airflow.decorators import task
 import pendulum,pika,json,time,pickle,os,shutil
 with DAG(
-    dag_id="processa_continuo", 
+    dag_id="processar_continuo", 
     description="Processamento continuo",
     start_date=pendulum.datetime(2023, 10, 12, 00, 00, 00, tz="America/Fortaleza"),
     catchup=False,

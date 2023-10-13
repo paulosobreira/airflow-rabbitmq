@@ -3,7 +3,7 @@ from airflow.operators.empty import EmptyOperator
 from airflow.decorators import task
 import pendulum,pika,json,time
 with DAG(
-    dag_id="processa_paralelo", 
+    dag_id="processar_paralelo", 
     description="Processamento em paralelo",
     start_date=pendulum.now(tz="America/Fortaleza"),
     schedule="@once",

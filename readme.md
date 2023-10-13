@@ -14,39 +14,32 @@ Lista de tecnologias usadas:
 
 Pode ser executado no [Play with Docker](https://labs.play-with-docker.com/)
 
->Baixar o Dokcer compose
+>Baixar o Docker compose
 ```
 curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/docker-compose.yaml'
 ```
-
 >Criar diretorio de DAGs e baixar as DAGs
 ```
 mkdir -p ./dags ./logs ./plugins ./config
 cd dags
 curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/setup_rabbitmq.py'
-curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/processa_paralelo.py'
-curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/processa_continuo.py'
+curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/processar_paralelo.py'
+curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/processar_continuo.py'
 cd ~
 ```
-
->Setup Airflow
+>Iniciar containers do Node,RabbitMQ e Airflow
 ```
 echo -e "AIRFLOW_UID=$(id -u)" > .env
 docker compose up airflow-init
-```
-
->Subir os containers
-```
 docker compose up
 ```
-
 >Portas, sistemas e usuários(usuário:senha):
 ```
 5000 Airflow airflow:airflow
 15672 RabbitMQ guest:guest
 3000 Web-Hook-RabbitMQ 
 ```
->Post JSON web-hook rabbitmq
+>Post JSON Web-Hook-RabbitMQ
 ```
 curl --location 'link_gerado_playwithdocker_porta_3000/rabbitmq' \
 --header 'Content-Type: application/json' \
@@ -54,7 +47,6 @@ curl --location 'link_gerado_playwithdocker_porta_3000/rabbitmq' \
     "processar" : 100
 }'
 ```
-
 >Limpar tudo
 ```
 docker compose down --volumes --rmi all
