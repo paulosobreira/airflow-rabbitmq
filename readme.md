@@ -9,6 +9,8 @@ Lista de tecnologias usadas:
 3. JavaScript
 4. RabbitMQ
 5. Airflow
+
+   ![Web Hook-RabbitMQ-Airflow](https://github.com/paulosobreira/airflow-rabbitmq/assets/5869365/c1653820-6beb-45cf-a2b9-41cac647ce8a)
    
 ## Como testar
 
