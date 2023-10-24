@@ -7,7 +7,7 @@ import pika,pendulum
 with DAG(
     "1_setup_rabbitmq", 
     start_date=pendulum.now(tz="America/Fortaleza"),
-    schedule="@once",
+    schedule=None,
     max_active_runs = 1,
     catchup=False,
     description="Setup RabbitMQ",

@@ -6,7 +6,7 @@ with DAG(
     dag_id="2_processar_paralelo", 
     description="Processamento em paralelo",
     start_date=pendulum.now(tz="America/Fortaleza"),
-    schedule="@once",
+    schedule=None,
     default_args={'owner': 'Paulo Sobreira'},
     tags=["processar","paralelo"]
 ) as dag:

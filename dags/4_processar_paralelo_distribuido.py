@@ -8,7 +8,7 @@ with DAG(
     description="Processamento paralelo distribuido",
     start_date=pendulum.datetime(2023, 10, 12, 00, 00, 00, tz="America/Fortaleza"),
     catchup=False,
-    schedule="@once",
+    schedule=None,
     default_args={'owner': 'Paulo Sobreira'},
     tags=["processar","paralelo","distribuido"]
 ) as dag:
