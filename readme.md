@@ -27,7 +27,7 @@ curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main
 curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/2_processar_paralelo.py'
 curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/3_processar_continuo.py'
 curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/dags/4_processar_paralelo_distribuido.py'
-cd ~
+cd ..
 curl -LfO 'https://raw.githubusercontent.com/paulosobreira/airflow-rabbitmq/main/processar.sh'
 chmod +x processar.sh
 ```
