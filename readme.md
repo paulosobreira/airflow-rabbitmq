@@ -1,7 +1,7 @@
 # airflow-rabbitmq
 
 Exemplo de uma arquitetura de processamento de dados com Airflow e RabbitMQ.
-O JSON de dados é eviado ao RabbitMQ via WebHook e processado com uma Dag do Airflow.
+O JSON de dados é enviado ao RabbitMQ via WebHook e processado com uma Dag do Airflow.
 
 Lista de tecnologias usadas:
 1. Python
